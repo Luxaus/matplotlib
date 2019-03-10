@@ -527,6 +527,51 @@ class FileMovieWriter(MovieWriter):
             for fname in self._temp_names:
                 os.remove(fname)
 
+@writers.register("frameimages")
+class FrameImagesFileMovieWriter(FileMovieWriter):
+    '''
+    Grabs the frames as images and then saves into a directory
+    '''
+    supported_formats = ['png', 'jpeg', 'svg']
+    args_key = 'animation.frameimages_args'
+
+    def setup(self, fig, outfile, dpi=None, frame_prefix='frame',
+              clear_temp=True):
+        root, ext = os.path.splitext(outfile)
+        # Check if outputfile format is supported
+        ext = ext.replace(".", "")
+        if ext not in self.supported_formats:
+            raise ValueError("outfile must be one of the following formats: " + str(self.supported_formats) + "\n" + ext)
+        self.frame_format = ext
+
+        # Set output directory
+        frame_dir = root + '_frames'
+        if not os.path.exists(frame_dir):
+            os.makedirs(frame_dir)
+        frame_prefix = os.path.join(frame_dir, root)
+
+        super().setup(fig, outfile, dpi, frame_prefix, clear_temp=False)
+
+    def grab_frame(self, **savefig_kwargs):
+        '''
+        Grab the image information from the figure and save as a movie frame.
+        All keyword arguments in savefig_kwargs are passed on to the 'savefig'
+        command that saves the figure.
+        '''
+
+        # Tell the figure to save its data to the sink, using the
+        # frame format and dpi.
+        with self._frame_sink() as myframesink:
+            self.fig.savefig(myframesink, format=self.frame_format,
+                             dpi=self.dpi, **savefig_kwargs)
+
+    def finish(self):
+        pass
+
+    @classmethod
+    def isAvailable(cls):
+        return True
+
 
 @writers.register('pillow')
 class PillowWriter(MovieWriter):

@@ -1451,6 +1451,8 @@ defaultParams = {
     'animation.bitrate':      [-1, validate_int],
     # Controls image format when frames are written to disk
     'animation.frame_format': ['png', validate_movie_frame_fmt],
+    # Additional arguments for FrameImages writer
+    'animation.frameimages_args': [[], validate_stringlist],
     # Additional arguments for HTML writer
     'animation.html_args':    [[], validate_stringlist],
     # Path to ffmpeg binary. If just binary name, subprocess uses $PATH.
