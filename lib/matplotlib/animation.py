@@ -566,6 +566,9 @@ class FrameImagesFileMovieWriter(FileMovieWriter):
                              dpi=self.dpi, **savefig_kwargs)
 
     def finish(self):
+        '''
+        Pass the cleaning up process in order to keep the generated frames
+        '''
         pass
 
     @classmethod
