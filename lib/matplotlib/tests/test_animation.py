@@ -123,6 +123,7 @@ WRITER_OUTPUT = [
     ('imagemagick_file', 'movie.gif'),
     ('pillow', 'movie.gif'),
     ('html', 'movie.html'),
+    ('frameimages', 'movie.svg'),
     ('null', 'movie.null')
 ]
 WRITER_OUTPUT += [
