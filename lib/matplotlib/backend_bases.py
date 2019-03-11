@@ -2374,15 +2374,6 @@ def key_press_handler(event, canvas, toolbar=None):
             if (event.x is not None and event.y is not None
                     and a.in_axes(event)):  # FIXME: Why only these?
                 a.set_navigate(True)
-    # enable navigation only for axes with this index (if such an axes exist,
-    # otherwise do nothing)
-    elif event.key.isdigit() and event.key != '0':
-        n = int(event.key) - 1
-        if n < len(canvas.figure.get_axes()):
-            for i, a in enumerate(canvas.figure.get_axes()):
-                if (event.x is not None and event.y is not None
-                        and a.in_axes(event)):  # FIXME: Why only these?
-                    a.set_navigate(i == n)
 
 
 def button_press_handler(event, canvas, toolbar=None):
